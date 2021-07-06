@@ -1,7 +1,7 @@
 :root{
     --blur:0px;
     --space:10px;
-    --color: white;
+    --color: #BADA55;
 }
 body{
     background-color: rgb(0, 0, 34);
