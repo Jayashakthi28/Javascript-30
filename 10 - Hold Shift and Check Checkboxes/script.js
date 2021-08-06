@@ -30,26 +30,54 @@ let check_box=document.querySelectorAll('input');
 // }
 let inBtw=false;
 let checkToggle=false;
-let lastIndex;
+let lastCheckIndex=-1;
+let lastUnCheckIndex=-1;
 let toggler=1;
+let firstClick=0;
+let min=999;
+let firstUnClick=0;
 function checker(e,index){
-    console.log('Hellooo');
-    if(e.shiftKey && index!==0 && check_box[index].checked){
-        lastIndex=index;
-        for(let i=0;i<=index;i++){
+    if(check_box[index].checked && !e.shiftKey){
+        lastCheckIndex=index;
+        firstClick=1;
+    }
+    if(lastCheckIndex==-1 && check_box[index].checked){
+        lastCheckIndex=index;
+    }
+    if(e.shiftKey && check_box[index].checked && lastCheckIndex!==-1){
+    firstClick=1;
+    let gre=(lastCheckIndex<index)?index:lastCheckIndex;
+    let sma=(lastCheckIndex>index)?index:lastCheckIndex;
+    if( lastCheckIndex!==lastUnCheckIndex){
+        for(let i=sma;i<=gre;i++){
             check_box[i].checked=true;
         }
     }
+    if(check_box[index].checked){
+        lastCheckIndex=index;
+    }
+    }
 }
 function unchecker(e,index){
-    let gre=(lastIndex<index)?index:lastIndex;
-    let sma=(lastIndex>index)?index:lastIndex;
-    if(e.shiftKey && index!=check_box.length-1 && lastIndex && !check_box[index].checked){
-        console.log(lastIndex,index);
-        for(let i=sma;i<=gre;i++){
-            check_box[i].checked=false;
-        }
+    if(!check_box[index].checked && !e.shiftKey){
+        console.log("Entered here");
+        lastUnCheckIndex=index;
+        firstUnClick=1;
     }
+    if(lastUnCheckIndex==-1 && !check_box[index].checked){
+        lastUnCheckIndex=index;
+    }
+    if(e.shiftKey && !check_box[index].checked){
+    firstUnClick=1;
+    let gre=(lastCheckIndex<index)?index:lastCheckIndex;
+    let sma=(lastCheckIndex>index)?index:lastCheckIndex;
+    if(lastCheckIndex!==lastUnCheckIndex){
+    for(let i=sma;i<=gre;i++){
+        check_box[i].checked=false;
+    }
+    }
+    lastUnCheckIndex=index;
+}
 }
 check_box.forEach((check,index)=>{
     check.addEventListener('click',(e)=>{
