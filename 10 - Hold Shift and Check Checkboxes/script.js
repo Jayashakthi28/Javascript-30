@@ -1,83 +1,56 @@
 let check_box=document.querySelectorAll('input');
-// let lastChecked=null;
-// let lastUnchecked=null;
-// function checker(e){
-//     let inBtw=false;
-//     if(e.shiftKey && this.checked && lastChecked){
-//     check_box.forEach(check=>{
-//         if(this===check || check===lastChecked){
-//             inBtw=!inBtw;
-//         }
-//         if(inBtw){
-//             check.checked=true;
-//         }
-//     })
-//     }
-//     if(e.shiftKey && !(this.checked) && lastUnchecked){
-//             check_box.forEach(check=>{
-//                 if(this===check || check===lastUnchecked){
-//                     inBtw=!inBtw;
-//                 }
-//                 if(inBtw){
-//                     check.checked=false;
-//                 }
-//             })
-//         }
-//     if(lastChecked && lastChecked.checked===false){
-//         lastUnchecked=this;
-//     }
-//     lastChecked=this;
-// }
 let inBtw=false;
 let checkToggle=false;
-let lastCheckIndex=-1;
-let lastUnCheckIndex=-1;
+let lastIndex;
 let toggler=1;
-let firstClick=0;
-let min=999;
-let firstUnClick=0;
+let first=0;
+let lastcheckIndex=-1;
 function checker(e,index){
     if(check_box[index].checked && !e.shiftKey){
-        lastCheckIndex=index;
-        firstClick=1;
+        first=1;
+        lastcheckIndex=index;
     }
-    if(lastCheckIndex==-1 && check_box[index].checked){
-        lastCheckIndex=index;
+    if(e.shiftKey && index!==0 && check_box[index].checked && first==0){
+        lastIndex=index;
+        for(let i=0;i<=index;i++){
+            check_box[i].checked=true;
+        }
+        lastcheckIndex=-1;
     }
-    if(e.shiftKey && check_box[index].checked && lastCheckIndex!==-1){
-    firstClick=1;
-    let gre=(lastCheckIndex<index)?index:lastCheckIndex;
-    let sma=(lastCheckIndex>index)?index:lastCheckIndex;
-    if( lastCheckIndex!==lastUnCheckIndex){
+    if(lastcheckIndex!==-1 && e.shiftKey){
+        // console.log(lastcheckIndex,index);
+        let gre=(lastcheckIndex<index)?index:lastcheckIndex;
+        let sma=(lastcheckIndex>index)?index:lastcheckIndex;
         for(let i=sma;i<=gre;i++){
             check_box[i].checked=true;
         }
-    }
-    if(check_box[index].checked){
-        lastCheckIndex=index;
-    }
+        if(check_box[index].checked){
+            lastcheckIndex=index;
+        }
     }
 }
 function unchecker(e,index){
-    if(!check_box[index].checked && !e.shiftKey){
-        console.log("Entered here");
-        lastUnCheckIndex=index;
-        firstUnClick=1;
+    let gre=(lastcheckIndex<index)?index:lastcheckIndex;
+    let sma=(lastcheckIndex>index)?index:lastcheckIndex;
+    if(!e.shiftKey && !check_box[index].checked && lastcheckIndex===index){
+        lastcheckIndex=-1;
+        first=0;
     }
-    if(lastUnCheckIndex==-1 && !check_box[index].checked){
-        lastUnCheckIndex=index;
+    if(e.shiftKey && lastIndex && !check_box[index].checked){
+        if(lastcheckIndex!==-1){
+            for(let i=sma;i<=gre;i++){
+                check_box[i].checked=false;
+            }
+        }
+        else{
+            console.log("Entered here");
+            let gre=(lastIndex<index)?index:lastIndex;
+            let sma=(lastIndex>index)?index:lastIIndex;
+            for(let i=sma;i<=gre;i++){
+                check_box[i].checked=false;
+            }
+        }
     }
-    if(e.shiftKey && !check_box[index].checked){
-    firstUnClick=1;
-    let gre=(lastCheckIndex<index)?index:lastCheckIndex;
-    let sma=(lastCheckIndex>index)?index:lastCheckIndex;
-    if(lastCheckIndex!==lastUnCheckIndex){
-    for(let i=sma;i<=gre;i++){
-        check_box[i].checked=false;
-    }
-    }
-    lastUnCheckIndex=index;
-}
 }
 check_box.forEach((check,index)=>{
     check.addEventListener('click',(e)=>{
