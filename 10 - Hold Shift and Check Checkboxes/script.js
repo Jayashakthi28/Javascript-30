@@ -43,7 +43,6 @@ function unchecker(e,index){
             }
         }
         else{
-            console.log("Entered here");
             let gre=(lastIndex<index)?index:lastIndex;
             let sma=(lastIndex>index)?index:lastIIndex;
             for(let i=sma;i<=gre;i++){
