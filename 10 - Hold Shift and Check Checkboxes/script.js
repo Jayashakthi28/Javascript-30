@@ -44,7 +44,7 @@ function unchecker(e,index){
         }
         else{
             let gre=(lastIndex<index)?index:lastIndex;
-            let sma=(lastIndex>index)?index:lastIIndex;
+            let sma=(lastIndex>index)?index:lastIndex;
             for(let i=sma;i<=gre;i++){
                 check_box[i].checked=false;
             }
